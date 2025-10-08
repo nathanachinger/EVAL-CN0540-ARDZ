@@ -13,10 +13,10 @@ void setup() {
   SPI.begin();
 
   if (adc.init()) {
-    Serial.println("AD7768 initialized");
+    Serial.println("AD7768 connected");
   }
   else {
-    Serial.println("Failed to initialize AD7768");
+    Serial.println("Failed to connect to AD7768");
   }
 }
 

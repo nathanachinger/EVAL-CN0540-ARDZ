@@ -14,6 +14,10 @@ bool AD7768::init() {
     pinMode(DRDY, INPUT);
     pinMode(RST, OUTPUT);
 
+    digitalWrite(CS, 1);
+    digitalWrite(RST, 1);
+    delay(20);
+
     digitalWrite(RST, 0);
     delay(2);
     digitalWrite(RST, 1);
@@ -50,14 +54,19 @@ int32_t AD7768::read() {
 
 uint8_t AD7768::readRegister(uint8_t reg) {
     uint8_t instr = SPI_READ_BM | (reg & 0x3F);
+    select();
     spi->transfer(instr);
-    return spi->transfer(0);
+    uint8_t value = spi->transfer(0);
+    deselect();
+    return value;
 }
 
 void AD7768::writeRegister(uint8_t reg, uint8_t data) {
     uint8_t instr = SPI_WRITE_BM | (reg & 0x3F);
+    select();
     spi->transfer(instr);
     spi->transfer(data);
+    deselect();
 }
 
 bool AD7768::dataReady() {
