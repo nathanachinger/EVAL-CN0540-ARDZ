@@ -9,26 +9,25 @@ AD7768 adc(SPI);
 void setup() {
   Serial.begin(9600);
   delay(1000);
-
   SPI.begin();
 
   if (adc.init()) {
-    Serial.println("AD7768 connected");
+    Serial.println("ADC connected");
   }
   else {
-    Serial.println("Failed to connect to AD7768");
+    Serial.println("ADC failed to connect");
   }
 }
 
 void loop() {
   int32_t adc_val = adc.read();
   Serial.print("ADC Value: ");
-  Serial.println(adc_val, HEX);
+  Serial.println(adc_val);
 
-  float voltage = (adc_val/SCALE) * VREF;
+  float voltage = ((float)adc_val/SCALE) * VREF;
   Serial.print("Voltage: ");
   Serial.println(voltage);
   Serial.print('\n');
 
-  delay(200);
+  delay(1000);
 }
